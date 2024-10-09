@@ -1,17 +1,15 @@
-import { Transition } from "react-transition-group";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { selectSideMenu } from "../../stores/sideMenuSlice";
-import { useAppSelector } from "../../stores/hooks";
-import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./side-menu";
-import Lucide from "../../base-components/Lucide";
-import logoUrl from "../../assets/images/logo.svg";
 import clsx from "clsx";
 import TopBar from "../../components/TopBar";
+import Lucide from "../../base-components/Lucide";
+import logoUrl from "../../assets/images/logo.svg";
+import { useAppSelector } from "../../stores/hooks";
+import { Transition } from "react-transition-group";
 import MobileMenu from "../../components/MobileMenu";
-import DarkModeSwitcher from "../../components/DarkModeSwitcher";
-import MainColorSwitcher from "../../components/MainColorSwitcher";
+import { selectSideMenu } from "../../stores/sideMenuSlice";
 import SideMenuTooltip from "../../components/SideMenuTooltip";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./side-menu";
 
 function Main() {
   const location = useLocation();
@@ -27,23 +25,18 @@ function Main() {
 
   return (
     <div className="py-2">
-      <DarkModeSwitcher />
-      <MainColorSwitcher />
       <MobileMenu />
       <div className="flex mt-[4.7rem] md:mt-0">
         {/* BEGIN: Side Menu */}
         <nav className="pr-5 pb-16 overflow-x-hidden hidden md:block w-[85px] xl:w-[230px]">
-          <Link
-            to="/side-menu/dashboard-overview-1"
-            className="flex items-center pt-4 pl-5 intro-x"
-          >
+          <Link to="/" className="flex items-center pt-4 pl-5 intro-x">
             <img
               alt="Midone Tailwind HTML Admin Template"
               className="w-6"
               src={logoUrl}
             />
             <span className="hidden ml-3 text-lg text-white xl:block">
-              Rubick
+              React B2C
             </span>
           </Link>
           <Divider type="div" className="my-6"></Divider>

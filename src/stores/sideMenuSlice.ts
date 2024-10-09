@@ -17,14 +17,9 @@ export interface SideMenuState {
 const initialState: SideMenuState = {
   menu: [
     {
-      icon: "Activity",
+      icon: "Home",
       pathname: "/",
-      title: "Page 1",
-    },
-    {
-      icon: "Activity",
-      pathname: "/page-2",
-      title: "Page 2",
+      title: "Dashboard",
     },
   ],
 };

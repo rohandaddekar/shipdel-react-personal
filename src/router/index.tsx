@@ -1,9 +1,9 @@
-import { useRoutes } from "react-router-dom";
+import SignUp from "../pages/Auth/SignUp";
+import SignIn from "../pages/Auth/SignIn";
+import Dashboard from "../pages/Dashboard";
 import SideMenu from "../layouts/SideMenu";
-import SimpleMenu from "../layouts/SimpleMenu";
-import TopMenu from "../layouts/TopMenu";
-import Page1 from "../pages/Page1";
-import Page2 from "../pages/Page2";
+import { useRoutes } from "react-router-dom";
+import Error404 from "../pages/Errors/Error404";
 
 function Router() {
   const routes = [
@@ -13,41 +13,21 @@ function Router() {
       children: [
         {
           path: "/",
-          element: <Page1 />,
-        },
-        {
-          path: "page-2",
-          element: <Page2 />,
+          element: <Dashboard />,
         },
       ],
     },
     {
-      path: "/simple-menu",
-      element: <SimpleMenu />,
-      children: [
-        {
-          path: "page-1",
-          element: <Page1 />,
-        },
-        {
-          path: "page-2",
-          element: <Page2 />,
-        },
-      ],
+      path: "/sign-in",
+      element: <SignIn />,
     },
     {
-      path: "/top-menu",
-      element: <TopMenu />,
-      children: [
-        {
-          path: "page-1",
-          element: <Page1 />,
-        },
-        {
-          path: "page-2",
-          element: <Page2 />,
-        },
-      ],
+      path: "/sign-up",
+      element: <SignUp />,
+    },
+    {
+      path: "*",
+      element: <Error404 />,
     },
   ];
 
