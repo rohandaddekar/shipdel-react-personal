@@ -2,7 +2,7 @@ import AuthLayout from "../../../layouts/Auth";
 import LeftSection from "./partials/LeftSection";
 import RightSection from "./partials/RightSection";
 
-function SignIn() {
+function ForgotPassword() {
   return (
     <>
       <AuthLayout
@@ -13,4 +13,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default ForgotPassword;
