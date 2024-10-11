@@ -1,5 +1,7 @@
 import clsx from "clsx";
+import { useSelector } from "react-redux";
 import TopBar from "../../components/TopBar";
+import { RootState } from "../../stores/store";
 import Lucide from "../../base-components/Lucide";
 import logoUrl from "../../assets/images/logo.svg";
 import { useAppSelector } from "../../stores/hooks";
@@ -12,12 +14,18 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./side-menu";
 
 function Main() {
+  const authUser = useSelector((state: RootState) => state.authUser);
   const location = useLocation();
+  const navigate = useNavigate();
   const [formattedMenu, setFormattedMenu] = useState<
     Array<FormattedMenu | "divider">
   >([]);
   const sideMenuStore = useAppSelector(selectSideMenu);
   const sideMenu = () => nestedMenu(sideMenuStore, location);
+
+  useEffect(() => {
+    if (!authUser) navigate("/sign-in");
+  }, [authUser, navigate]);
 
   useEffect(() => {
     setFormattedMenu(sideMenu());
@@ -36,7 +44,7 @@ function Main() {
               src={logoUrl}
             />
             <span className="hidden ml-3 text-lg text-white xl:block">
-              React B2C
+              Shipdel
             </span>
           </Link>
           <Divider type="div" className="my-6"></Divider>

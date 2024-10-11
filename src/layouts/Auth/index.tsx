@@ -1,5 +1,8 @@
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { useSelector } from "react-redux";
+import { ReactNode, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../stores/store";
 import logoUrl from "../../assets/images/logo.svg";
 
 interface AuthLayoutProps {
@@ -11,6 +14,13 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
   leftSection,
   rightSection,
 }) => {
+  const authUser = useSelector((state: RootState) => state.authUser);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authUser) navigate("/");
+  }, [authUser, navigate]);
+
   return (
     <>
       <div
