@@ -26,7 +26,7 @@ const RightSection = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<SignInFormData>({
-    mode: "onChange",
+    mode: "onBlur",
     resolver: yupResolver(signInSchema),
   });
 

@@ -25,7 +25,8 @@ FormCheck.Label = (props: LabelProps) => {
   );
 };
 
-interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
+interface InputProps
+  extends Omit<React.ComponentPropsWithoutRef<"input">, "value"> {
   type: "radio" | "checkbox";
 }
 

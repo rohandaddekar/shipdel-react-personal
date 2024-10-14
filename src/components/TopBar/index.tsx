@@ -1,14 +1,17 @@
-import { useState, Fragment } from "react";
-import Lucide from "../../base-components/Lucide";
-import Breadcrumb from "../../base-components/Breadcrumb";
-import { FormInput } from "../../base-components/Form";
-import { Menu, Popover } from "../../base-components/Headless";
-import fakerData from "../../utils/faker";
 import _ from "lodash";
 import clsx from "clsx";
+import fakerData from "../../utils/faker";
+import { useDispatch } from "react-redux";
+import { useState, Fragment } from "react";
 import { Transition } from "@headlessui/react";
+import Lucide from "../../base-components/Lucide";
+import { signOut } from "../../stores/authUserSlice";
+import { FormInput } from "../../base-components/Form";
+import Breadcrumb from "../../base-components/Breadcrumb";
+import { Menu, Popover } from "../../base-components/Headless";
 
 function Main() {
+  const dispatch = useDispatch();
   const [searchDropdown, setSearchDropdown] = useState(false);
   const showSearchDropdown = () => {
     setSearchDropdown(true);
@@ -29,6 +32,7 @@ function Main() {
           </Breadcrumb.Link>
         </Breadcrumb>
         {/* END: Breadcrumb */}
+
         {/* BEGIN: Search */}
         <div className="relative mr-3 intro-x sm:mr-6">
           <div className="relative hidden sm:block">
@@ -123,6 +127,7 @@ function Main() {
           </Transition>
         </div>
         {/* END: Search  */}
+
         {/* BEGIN: Notifications */}
         <Popover className="mr-auto intro-x sm:mr-6">
           <Popover.Button
@@ -169,6 +174,7 @@ function Main() {
           </Popover.Panel>
         </Popover>
         {/* END: Notifications  */}
+
         {/* BEGIN: Account Menu */}
         <Menu>
           <Menu.Button className="block w-8 h-8 overflow-hidden rounded-full shadow-lg image-fit zoom-in intro-x">
@@ -198,7 +204,10 @@ function Main() {
               <Lucide icon="HelpCircle" className="w-4 h-4 mr-2" /> Help
             </Menu.Item>
             <Menu.Divider className="bg-white/[0.08]" />
-            <Menu.Item className="hover:bg-white/5">
+            <Menu.Item
+              className="hover:bg-white/5"
+              onClick={() => dispatch(signOut())}
+            >
               <Lucide icon="ToggleRight" className="w-4 h-4 mr-2" /> Logout
             </Menu.Item>
           </Menu.Items>
