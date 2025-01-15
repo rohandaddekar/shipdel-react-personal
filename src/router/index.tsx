@@ -1,10 +1,12 @@
 import SignUp from "../pages/Auth/SignUp";
 import SignIn from "../pages/Auth/SignIn";
 import Dashboard from "../pages/Dashboard";
-import SideMenu from "../layouts/SideMenu";
 import { useRoutes } from "react-router-dom";
 import Error404 from "../pages/Errors/Error404";
+import CreateOrders from "../pages/Orders/Create";
 import ForgotPassword from "../pages/Auth/ForgotPassword";
+
+import SideMenu from "../layouts/SideMenu";
 
 function Router() {
   const routes = [
@@ -15,6 +17,10 @@ function Router() {
         {
           path: "/",
           element: <Dashboard />,
+        },
+        {
+          path: "/orders/create",
+          element: <CreateOrders />,
         },
       ],
     },

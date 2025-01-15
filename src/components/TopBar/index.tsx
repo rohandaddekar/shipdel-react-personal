@@ -26,7 +26,7 @@ function Main() {
       <div className="h-[67px] z-[51] flex items-center relative border-b border-slate-200">
         {/* BEGIN: Breadcrumb */}
         <Breadcrumb className="hidden mr-auto -intro-x sm:flex">
-          <Breadcrumb.Link to="/">Application</Breadcrumb.Link>
+          <Breadcrumb.Link to="/">Shipdel</Breadcrumb.Link>
           <Breadcrumb.Link to="/" active={true}>
             Dashboard
           </Breadcrumb.Link>

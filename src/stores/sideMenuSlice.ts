@@ -21,6 +21,23 @@ const initialState: SideMenuState = {
       pathname: "/",
       title: "Dashboard",
     },
+    {
+      icon: "Box",
+      pathname: "/orders",
+      title: "Orders",
+      subMenu: [
+        {
+          icon: "Activity",
+          pathname: "/orders/create",
+          title: "Create Order",
+        },
+      ],
+    },
+    {
+      icon: "Calculator",
+      pathname: "/calculators/rate",
+      title: "Rate Calculator",
+    },
   ],
 };
 
