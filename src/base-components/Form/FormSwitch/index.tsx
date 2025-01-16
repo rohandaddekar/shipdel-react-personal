@@ -1,5 +1,6 @@
-import FormCheck, { FormCheckProps, LabelProps } from "../FormCheck";
+import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
+import FormCheck, { FormCheckProps, LabelProps } from "../FormCheck";
 
 function FormSwitch(props: FormCheckProps) {
   return <FormCheck {...props}>{props.children}</FormCheck>;
@@ -13,9 +14,10 @@ interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
   type: "checkbox";
 }
 
-FormSwitch.Input = (props: InputProps) => {
+FormSwitch.Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   return (
     <FormCheck.Input
+      ref={ref}
       {...props}
       className={twMerge([
         // Default
@@ -30,6 +32,6 @@ FormSwitch.Input = (props: InputProps) => {
       ])}
     />
   );
-};
+});
 
 export default FormSwitch;

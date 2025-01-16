@@ -50,10 +50,10 @@ const orderSchema = yup.object().shape({
     .typeError("Invoice Value must be a number")
     .positive("Invoice Value must be positive")
     .required("Invoice Value is required"),
-  // insurance: yup.boolean().required("Insurance selection is required"),
-  // appointmentBasedDelivery: yup
-  //   .boolean()
-  //   .required("Appointment-based delivery selection is required"),
+  insurance: yup.boolean().required("Insurance selection is required"),
+  appointmentBasedDelivery: yup
+    .boolean()
+    .required("Appointment-based delivery selection is required"),
 });
 
 export { dimensionSchema, orderSchema };

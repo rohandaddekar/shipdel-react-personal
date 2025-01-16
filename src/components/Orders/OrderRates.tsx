@@ -54,6 +54,8 @@ const OrderRates = ({
     append({ quantity: 0, length: 0, width: 0, height: 0 });
   };
 
+  console.log("errors: ", errors);
+
   const onSubmit = (data: OrderData) => {
     console.log("Order Data: ", data);
 
@@ -275,8 +277,17 @@ const OrderRates = ({
                 Insurance
                 <span className="text-danger ml-1">*</span>
               </FormSwitch.Label>
-              <FormSwitch.Input id="insurance" type="checkbox" />
+              <FormSwitch.Input
+                id="insurance"
+                type="checkbox"
+                {...register("insurance")}
+              />
             </FormSwitch>
+            {errors.insurance && (
+              <p className="text-danger text-xs mt-1">
+                {errors.insurance.message}
+              </p>
+            )}
           </div>
           <div className="col-span-12 intro-y sm:col-span-6">
             <FormSwitch>
@@ -284,8 +295,17 @@ const OrderRates = ({
                 Appointment Base Delivery
                 <span className="text-danger ml-1">*</span>
               </FormSwitch.Label>
-              <FormSwitch.Input id="appoinment" type="checkbox" />
+              <FormSwitch.Input
+                id="appoinment"
+                type="checkbox"
+                {...register("appointmentBasedDelivery")}
+              />
             </FormSwitch>
+            {errors.appointmentBasedDelivery && (
+              <p className="text-danger text-xs mt-1">
+                {errors.appointmentBasedDelivery.message}
+              </p>
+            )}
           </div>
         </div>
         {/* END: Insurance & Appointment  Details */}
