@@ -54,8 +54,6 @@ const OrderRates = ({
     append({ quantity: 0, length: 0, width: 0, height: 0 });
   };
 
-  console.log("errors: ", errors);
-
   const onSubmit = (data: OrderData) => {
     console.log("Order Data: ", data);
 
