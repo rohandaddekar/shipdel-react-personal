@@ -138,7 +138,7 @@ const OrderRates = ({
 
           <div className="p-5">
             {fields.map((field, index) => (
-              <div key={field.id} className="mb-5">
+              <div key={field.id} className="mb-5 border-b pb-5 border-dashed">
                 <div className="grid grid-cols-12 gap-4 gap-y-5">
                   <div className="col-span-12 intro-y sm:col-span-3">
                     <FormLabel htmlFor={`dimensions.${index}.quantity`}>
@@ -205,16 +205,18 @@ const OrderRates = ({
                     )}
                   </div>
                 </div>
+
                 {index > 0 && (
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="mt-3"
-                    onClick={() => remove(index)}
-                  >
-                    <Lucide icon="Trash2" className="w-4 h-4 mr-2" />
-                    Remove
-                  </Button>
+                  <div className="flex items-center justify-end mt-1">
+                    <Button
+                      type="button"
+                      variant="danger"
+                      onClick={() => remove(index)}
+                    >
+                      <Lucide icon="Trash2" className="w-4 h-4 mr-2" />
+                      Remove
+                    </Button>
+                  </div>
                 )}
               </div>
             ))}
