@@ -5,6 +5,7 @@ import {
   FormSwitch,
   InputGroup,
 } from "../../base-components/Form";
+import { twMerge } from "tailwind-merge";
 import { OrderData } from "../../types/order";
 import { Dispatch, SetStateAction } from "react";
 import Button from "../../base-components/Button";
@@ -16,7 +17,7 @@ import { useOrderContext } from "../../contexts/order";
 import { useFieldArray, useForm } from "react-hook-form";
 
 interface OrderRatesProps {
-  setCurrentScreen: Dispatch<SetStateAction<ScreenType>>;
+  setCurrentScreen?: Dispatch<SetStateAction<ScreenType>>;
   isCalculator?: boolean;
 }
 
@@ -50,9 +51,8 @@ const OrderRates = ({
   const onSubmit = (data: OrderData) => {
     console.log("Order Data: ", data);
 
-    updateOrderData(data);
-
-    if (!isCalculator) {
+    if (!isCalculator && setCurrentScreen) {
+      updateOrderData(data);
       setCurrentScreen("ChooseShippingPartners");
     }
   };
@@ -63,7 +63,7 @@ const OrderRates = ({
     <>
       <form>
         {/* BEGIN: Pickup & Delivery */}
-        <div className="grid grid-cols-12 gap-4 mt-5 gap-y-5 border p-5 rounded-xl">
+        <div className="grid grid-cols-12 gap-4 gap-y-5 border p-5 rounded-xl">
           <div className="col-span-12 text-base font-semibold">
             Pickup & Destination Details
           </div>
@@ -76,6 +76,7 @@ const OrderRates = ({
               id="pickup-pincode"
               type="number"
               placeholder="400001"
+              className={twMerge([errors.pickupPincode && "border-danger"])}
               {...register("pickupPincode")}
             />
             {errors.pickupPincode && (
@@ -93,6 +94,7 @@ const OrderRates = ({
               id="deliver-pincode"
               type="number"
               placeholder="400002"
+              className={twMerge([errors.deliveryPincode && "border-danger"])}
               {...register("deliveryPincode")}
             />
             {errors.deliveryPincode && (
@@ -119,6 +121,7 @@ const OrderRates = ({
                 id="weight"
                 type="number"
                 placeholder="100"
+                className={twMerge([errors.weight && "border-danger"])}
                 {...register("weight")}
               />
               {errors.weight && (
@@ -131,7 +134,7 @@ const OrderRates = ({
 
           <div className="p-5">
             {fields.map((field, index) => (
-              <div key={field.id} className="mb-5 border-b pb-5 border-dashed">
+              <div key={field.id} className="mb-5 bg-slate-100 p-5 rounded-lg">
                 <div className="grid grid-cols-12 gap-4 gap-y-5">
                   <div className="col-span-12 intro-y sm:col-span-3">
                     <FormLabel htmlFor={`dimensions.${index}.quantity`}>
@@ -141,6 +144,9 @@ const OrderRates = ({
                     <FormInput
                       type="number"
                       placeholder="1"
+                      className={twMerge([
+                        errors.dimensions?.[index]?.quantity && "border-danger",
+                      ])}
                       {...register(`dimensions.${index}.quantity`)}
                     />
                     {errors.dimensions?.[index]?.quantity && (
@@ -157,6 +163,9 @@ const OrderRates = ({
                     <FormInput
                       type="number"
                       placeholder="10"
+                      className={twMerge([
+                        errors.dimensions?.[index]?.length && "border-danger",
+                      ])}
                       {...register(`dimensions.${index}.length`)}
                     />
                     {errors.dimensions?.[index]?.length && (
@@ -173,6 +182,9 @@ const OrderRates = ({
                     <FormInput
                       type="number"
                       placeholder="10"
+                      className={twMerge([
+                        errors.dimensions?.[index]?.width && "border-danger",
+                      ])}
                       {...register(`dimensions.${index}.width`)}
                     />
                     {errors.dimensions?.[index]?.width && (
@@ -189,6 +201,9 @@ const OrderRates = ({
                     <FormInput
                       type="number"
                       placeholder="10"
+                      className={twMerge([
+                        errors.dimensions?.[index]?.height && "border-danger",
+                      ])}
                       {...register(`dimensions.${index}.height`)}
                     />
                     {errors.dimensions?.[index]?.height && (
@@ -233,12 +248,21 @@ const OrderRates = ({
               Payment Mode
               <span className="text-danger ml-1">*</span>
             </FormLabel>
-            <FormSelect id="payment" {...register("paymentMode")}>
+            <FormSelect
+              id="payment"
+              className={twMerge([errors.paymentMode && "border-danger"])}
+              {...register("paymentMode")}
+            >
               <option value={"Prepaid"}>Prepaid</option>
               <option value={"COD"}>COD</option>
               <option value={"To Pay"}>To Pay</option>
               <option value={"Franchise To Pay"}>Franchise To Pay</option>
             </FormSelect>
+            {errors.paymentMode && (
+              <p className="text-danger text-xs mt-1">
+                {errors.paymentMode.message}
+              </p>
+            )}
           </div>
           <div className="col-span-12 intro-y sm:col-span-6">
             <FormLabel htmlFor="invoice">
@@ -246,11 +270,17 @@ const OrderRates = ({
               <span className="text-danger ml-1">*</span>
             </FormLabel>
             <InputGroup>
-              <InputGroup.Text id="input-group-email">₹</InputGroup.Text>
+              <InputGroup.Text
+                id="input-group-email"
+                className={twMerge([errors.invoiceValue && "border-danger"])}
+              >
+                ₹
+              </InputGroup.Text>
               <FormInput
                 id="invoice"
                 type="number"
                 placeholder="9999"
+                className={twMerge([errors.invoiceValue && "border-danger"])}
                 {...register("invoiceValue")}
               />
             </InputGroup>
