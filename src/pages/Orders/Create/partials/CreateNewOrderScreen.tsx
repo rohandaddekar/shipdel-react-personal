@@ -11,9 +11,7 @@ const CreateNewOrderScreen = ({
 }: CreateNewOrderScreenProps) => {
   return (
     <>
-      <div className="mt-5">
-        <OrderRates setCurrentScreen={setCurrentScreen} />
-      </div>
+      <OrderRates setCurrentScreen={setCurrentScreen} />
     </>
   );
 };
