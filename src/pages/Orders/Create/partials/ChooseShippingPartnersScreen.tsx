@@ -6,6 +6,7 @@ import {
 import { ScreenType } from "..";
 import { Dispatch, SetStateAction } from "react";
 import Button from "../../../../base-components/Button";
+import { useOrderContext } from "../../../../contexts/order";
 
 interface ChooseShippingPartnersScreenProps {
   setCurrentScreen: Dispatch<SetStateAction<ScreenType>>;
@@ -14,6 +15,10 @@ interface ChooseShippingPartnersScreenProps {
 const ChooseShippingPartnersScreen = ({
   setCurrentScreen,
 }: ChooseShippingPartnersScreenProps) => {
+  const { orderData } = useOrderContext();
+
+  console.log("data in shipping", orderData);
+
   return (
     <>
       <div className="grid grid-cols-12 gap-4 mt-5 gap-y-5">

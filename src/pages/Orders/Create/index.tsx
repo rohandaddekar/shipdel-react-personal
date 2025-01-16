@@ -1,4 +1,5 @@
 import Button from "../../../base-components/Button";
+import { OrderProvider } from "../../../contexts/order";
 import { Dispatch, SetStateAction, useState } from "react";
 import OrderDetailsScreen from "./partials/OrderDetailsScreen";
 import CreateNewOrderScreen from "./partials/CreateNewOrderScreen";
@@ -84,7 +85,7 @@ function Main() {
     useState<ScreenType>("CreateNewOrder");
 
   return (
-    <>
+    <OrderProvider>
       <div className="py-10 mt-5 intro-y box sm:py-20">
         <ProgressIndicator currentActiveScreen={currentScreen} />
 
@@ -95,7 +96,7 @@ function Main() {
           />
         </div>
       </div>
-    </>
+    </OrderProvider>
   );
 }
 

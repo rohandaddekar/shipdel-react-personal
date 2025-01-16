@@ -3,6 +3,7 @@ import {
   FormLabel,
   FormSelect,
   FormSwitch,
+  InputGroup,
 } from "../../base-components/Form";
 import { OrderData } from "../../types/order";
 import { Dispatch, SetStateAction } from "react";
@@ -11,6 +12,7 @@ import Lucide from "../../base-components/Lucide";
 import { orderSchema } from "../../schemas/order";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ScreenType } from "../../pages/Orders/Create";
+import { useOrderContext } from "../../contexts/order";
 import { useFieldArray, useForm } from "react-hook-form";
 
 interface OrderRatesProps {
@@ -18,21 +20,12 @@ interface OrderRatesProps {
   isCalculator?: boolean;
 }
 
-const defaultValues: OrderData = {
-  pickupPincode: 0,
-  deliveryPincode: 0,
-  weight: 0,
-  dimensions: [{ quantity: 0, length: 0, width: 0, height: 0 }],
-  paymentMode: "Prepaid",
-  invoiceValue: 0,
-  insurance: false,
-  appointmentBasedDelivery: false,
-};
-
 const OrderRates = ({
   setCurrentScreen,
   isCalculator = false,
 }: OrderRatesProps) => {
+  const { orderData, updateOrderData, defaultOrderData } = useOrderContext();
+
   const {
     register,
     handleSubmit,
@@ -41,7 +34,7 @@ const OrderRates = ({
     formState: { errors },
   } = useForm<OrderData>({
     mode: "onBlur",
-    defaultValues,
+    defaultValues: orderData,
     resolver: yupResolver(orderSchema),
   });
 
@@ -57,12 +50,14 @@ const OrderRates = ({
   const onSubmit = (data: OrderData) => {
     console.log("Order Data: ", data);
 
-    !isCalculator && setCurrentScreen("ChooseShippingPartners");
+    updateOrderData(data);
+
+    if (!isCalculator) {
+      setCurrentScreen("ChooseShippingPartners");
+    }
   };
 
-  const handleReset = () => {
-    reset(defaultValues);
-  };
+  const handleReset = () => reset(defaultOrderData);
 
   return (
     <>
@@ -205,14 +200,13 @@ const OrderRates = ({
                 </div>
 
                 {index > 0 && (
-                  <div className="flex items-center justify-end mt-1">
+                  <div className="flex items-center justify-end mt-3">
                     <Button
                       type="button"
                       variant="danger"
                       onClick={() => remove(index)}
                     >
-                      <Lucide icon="Trash2" className="w-4 h-4 mr-2" />
-                      Remove
+                      <Lucide icon="Trash2" className="w-4 h-4" />
                     </Button>
                   </div>
                 )}
@@ -251,12 +245,15 @@ const OrderRates = ({
               Invoice Value (in INR)
               <span className="text-danger ml-1">*</span>
             </FormLabel>
-            <FormInput
-              id="invoice"
-              type="number"
-              placeholder="9999"
-              {...register("invoiceValue")}
-            />
+            <InputGroup>
+              <InputGroup.Text id="input-group-email">₹</InputGroup.Text>
+              <FormInput
+                id="invoice"
+                type="number"
+                placeholder="9999"
+                {...register("invoiceValue")}
+              />
+            </InputGroup>
             {errors.invoiceValue && (
               <p className="text-danger text-xs mt-1">
                 {errors.invoiceValue.message}
