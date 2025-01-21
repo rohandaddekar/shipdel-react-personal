@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { ScreenType } from "..";
-import fakerData from "../../../../utils/faker";
-import { Dispatch, SetStateAction } from "react";
 import Button from "../../../../base-components/Button";
 import Lucide from "../../../../base-components/Lucide";
+import { Dispatch, SetStateAction, useState } from "react";
+import PartnerDetailedModal from "./PartnerDetailedModal";
 import { useOrderContext } from "../../../../contexts/order";
 import { FormSelect } from "../../../../base-components/Form";
 import Pagination from "../../../../base-components/Pagination";
@@ -12,10 +12,61 @@ interface ChooseShippingPartnersScreenProps {
   setCurrentScreen: Dispatch<SetStateAction<ScreenType>>;
 }
 
+const SHIPPING_PARTNERS_LIST = [
+  {
+    id: 1,
+    logo: "https://uknowva.com/images/casestudy/delhivery/logo.png",
+    name: "Delhivery",
+    type: "B2B",
+    minWeight: 200,
+    price: 1499,
+    charges: {
+      min: 100,
+      overheads: {
+        docket: 100,
+        weight: 50,
+        fuel: 50,
+        rov: 50,
+        volumeWeight: 50,
+        chargedWeight: 50,
+      },
+      additional: {
+        pickup: 100,
+        gst: 50,
+      },
+    },
+  },
+  {
+    id: 2,
+    logo: "https://img.etimg.com/thumb/msid-49225224,width-300,height-225,imgsize-35118,resizemode-75/.jpg",
+    name: "Flipkart",
+    type: "B2C",
+    minWeight: 500,
+    price: 2499,
+    charges: {
+      min: 100,
+      overheads: {
+        docket: 100,
+        weight: 50,
+        fuel: 50,
+        rov: 50,
+        volumeWeight: 50,
+        chargedWeight: 50,
+      },
+      additional: {
+        pickup: 100,
+        gst: 50,
+      },
+    },
+  },
+];
+
 const ChooseShippingPartnersScreen = ({
   setCurrentScreen,
 }: ChooseShippingPartnersScreenProps) => {
   const { orderData } = useOrderContext();
+
+  const [showPartnerDetailsModal, setShowPartnerDetailsModal] = useState(false);
 
   console.log("data in shipping", orderData);
 
@@ -67,72 +118,76 @@ const ChooseShippingPartnersScreen = ({
 
           <div className="text-slate-500">Showing 1 to 10 of 150 entries</div>
 
-          <Button variant="secondary" onClick={() => {}}>
+          <Button
+            variant="secondary"
+            onClick={() => setCurrentScreen("CreateNewOrder")}
+          >
             <Lucide icon="ChevronLeft" className="w-4 h-4 mr-1" />
             Back
           </Button>
         </div>
 
-        {/* BEGIN: Users Layout */}
-        {_.take(fakerData, 12).map((faker, fakerKey) => (
+        {/* BEGIN: Shipping partners list */}
+        {SHIPPING_PARTNERS_LIST.map((partner, idx) => (
           <div
-            key={fakerKey}
+            key={idx}
             className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
           >
             <div className="box">
-              <div className="p-5">
-                <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                  <img
-                    alt="Midone - HTML Admin Template"
-                    className="rounded-md"
-                    src={faker.images[0]}
-                  />
-                  {faker.trueFalse[0] && (
-                    <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
-                      Featured
-                    </span>
-                  )}
-                  <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                    <a href="" className="block text-base font-medium">
-                      {faker.products[0].name}
-                    </a>
-                    <span className="mt-3 text-xs text-white/90">
-                      {faker.products[0].category}
-                    </span>
-                  </div>
+              <div className="h-52 overflow-hidden rounded-t-md image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/5">
+                <img
+                  alt={partner.name}
+                  src={partner.logo}
+                  className="!object-contain"
+                />
+                {partner.type && (
+                  <span className="absolute top-0 z-10 px-3 py-1 mt-3 ml-3 text-sm text-white font-bold rounded bg-pending">
+                    {partner.type}
+                  </span>
+                )}
+                <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
+                  <p className="block text-xl font-bold">{partner.name}</p>
                 </div>
+              </div>
+              <div className="px-5 pb-3">
                 <div className="mt-5 text-slate-600 dark:text-slate-500">
-                  <div className="flex items-center">
-                    <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                    {faker.totals[0]}
-                  </div>
                   <div className="flex items-center mt-2">
-                    <Lucide icon="Layers" className="w-4 h-4 mr-2" /> Remaining
-                    Stock:
-                    {faker.stocks[0]}
-                  </div>
-                  <div className="flex items-center mt-2">
-                    <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                    Status:
-                    {faker.trueFalse[0] ? "Active" : "Inactive"}
+                    <Lucide icon="Layers" className="w-4 h-4 mr-2" />
+                    <div className="flex-1 flex items-center gap-3">
+                      Minimum Weight:{" "}
+                      <p className="font-medium">{partner.minWeight} Kg</p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
-                <a className="flex items-center mr-auto text-primary" href="#">
-                  <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
-                </a>
-                <a className="flex items-center mr-3" href="#">
-                  <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
-                </a>
-                <a className="flex items-center text-danger" href="#">
-                  <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete
-                </a>
+              <div className="flex items-center justify-between py-3 px-5 border-t border-slate-200/60 dark:border-darkmode-400">
+                <p className="text-lg font-bold text-primary">
+                  ₹{partner.price}
+                </p>
+
+                <div className="flex-1 flex items-center justify-end gap-2">
+                  <Button
+                    variant="secondary"
+                    onClick={() => setShowPartnerDetailsModal(true)}
+                  >
+                    <Lucide icon="Eye" className="w-5 h-5" />
+                  </Button>
+                  <Button variant="primary">
+                    <Lucide icon="Truck" className="w-5 h-5 mr-2" />
+                    Ship
+                  </Button>
+                </div>
               </div>
             </div>
+
+            <PartnerDetailedModal
+              open={showPartnerDetailsModal}
+              onClose={() => setShowPartnerDetailsModal(false)}
+              details={partner}
+            />
           </div>
         ))}
-        {/* END: Users Layout */}
+        {/* END: Shipping partners list */}
 
         {/* BEGIN: Pagination */}
         <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
