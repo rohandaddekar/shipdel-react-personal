@@ -12,13 +12,47 @@ interface ChooseShippingPartnersScreenProps {
   setCurrentScreen: Dispatch<SetStateAction<ScreenType>>;
 }
 
-const SHIPPING_PARTNERS_LIST = [
+interface ShippingPartnerProps {
+  partner: ShippingPartner;
+}
+
+export interface ShippingPartner {
+  id: number;
+  logo: string;
+  name: string;
+  type: string;
+  weight: {
+    minimumWeight: number;
+    volumeWeight: number;
+    chargedWeight: number;
+  };
+  price: number;
+  charges: {
+    min: number;
+    overheads: {
+      docket: number;
+      weight: number;
+      fuel: number;
+      rov: number;
+    };
+    additional: {
+      pickup: number;
+      gst: number;
+    };
+  };
+}
+
+const SHIPPING_PARTNERS_LIST: ShippingPartner[] = [
   {
     id: 1,
     logo: "https://uknowva.com/images/casestudy/delhivery/logo.png",
     name: "Delhivery",
     type: "B2B",
-    minWeight: 200,
+    weight: {
+      minimumWeight: 200,
+      volumeWeight: 200,
+      chargedWeight: 200,
+    },
     price: 1499,
     charges: {
       min: 100,
@@ -27,8 +61,6 @@ const SHIPPING_PARTNERS_LIST = [
         weight: 50,
         fuel: 50,
         rov: 50,
-        volumeWeight: 50,
-        chargedWeight: 50,
       },
       additional: {
         pickup: 100,
@@ -41,7 +73,11 @@ const SHIPPING_PARTNERS_LIST = [
     logo: "https://img.etimg.com/thumb/msid-49225224,width-300,height-225,imgsize-35118,resizemode-75/.jpg",
     name: "Flipkart",
     type: "B2C",
-    minWeight: 500,
+    weight: {
+      minimumWeight: 200,
+      volumeWeight: 200,
+      chargedWeight: 200,
+    },
     price: 2499,
     charges: {
       min: 100,
@@ -50,8 +86,6 @@ const SHIPPING_PARTNERS_LIST = [
         weight: 50,
         fuel: 50,
         rov: 50,
-        volumeWeight: 50,
-        chargedWeight: 50,
       },
       additional: {
         pickup: 100,
@@ -61,12 +95,73 @@ const SHIPPING_PARTNERS_LIST = [
   },
 ];
 
+const ShippingPartnerCard = ({ partner }: ShippingPartnerProps) => {
+  const [showPartnerDetailsModal, setShowPartnerDetailsModal] = useState(false);
+
+  return (
+    <>
+      <div className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3">
+        <div className="box">
+          <div className="h-52 overflow-hidden rounded-t-md image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/5">
+            <img
+              alt={partner.name}
+              src={partner.logo}
+              className="!object-contain"
+            />
+            {partner.type && (
+              <span className="absolute top-0 z-10 px-3 py-1 mt-3 ml-3 text-sm text-white font-bold rounded bg-pending">
+                {partner.type}
+              </span>
+            )}
+            <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
+              <p className="block text-xl font-bold">{partner.name}</p>
+            </div>
+          </div>
+          <div className="px-5 pb-3">
+            <div className="mt-5 text-slate-600 dark:text-slate-500">
+              <div className="flex items-center mt-2">
+                <Lucide icon="Layers" className="w-4 h-4 mr-2" />
+                <div className="flex-1 flex items-center gap-3">
+                  Minimum Weight:{" "}
+                  <p className="font-medium">
+                    {partner.weight.minimumWeight} Kg
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between py-3 px-5 border-t border-slate-200/60 dark:border-darkmode-400">
+            <p className="text-lg font-bold text-primary">₹{partner.price}</p>
+
+            <div className="flex-1 flex items-center justify-end gap-2">
+              <Button
+                variant="secondary"
+                onClick={() => setShowPartnerDetailsModal(true)}
+              >
+                <Lucide icon="Eye" className="w-5 h-5" />
+              </Button>
+              <Button variant="primary">
+                <Lucide icon="Truck" className="w-5 h-5 mr-2" />
+                Ship
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <PartnerDetailedModal
+          open={showPartnerDetailsModal}
+          onClose={() => setShowPartnerDetailsModal(false)}
+          partner={partner}
+        />
+      </div>
+    </>
+  );
+};
+
 const ChooseShippingPartnersScreen = ({
   setCurrentScreen,
 }: ChooseShippingPartnersScreenProps) => {
   const { orderData } = useOrderContext();
-
-  const [showPartnerDetailsModal, setShowPartnerDetailsModal] = useState(false);
 
   console.log("data in shipping", orderData);
 
@@ -129,63 +224,7 @@ const ChooseShippingPartnersScreen = ({
 
         {/* BEGIN: Shipping partners list */}
         {SHIPPING_PARTNERS_LIST.map((partner, idx) => (
-          <div
-            key={idx}
-            className="col-span-12 intro-y md:col-span-6 lg:col-span-4 xl:col-span-3"
-          >
-            <div className="box">
-              <div className="h-52 overflow-hidden rounded-t-md image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/5">
-                <img
-                  alt={partner.name}
-                  src={partner.logo}
-                  className="!object-contain"
-                />
-                {partner.type && (
-                  <span className="absolute top-0 z-10 px-3 py-1 mt-3 ml-3 text-sm text-white font-bold rounded bg-pending">
-                    {partner.type}
-                  </span>
-                )}
-                <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                  <p className="block text-xl font-bold">{partner.name}</p>
-                </div>
-              </div>
-              <div className="px-5 pb-3">
-                <div className="mt-5 text-slate-600 dark:text-slate-500">
-                  <div className="flex items-center mt-2">
-                    <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                    <div className="flex-1 flex items-center gap-3">
-                      Minimum Weight:{" "}
-                      <p className="font-medium">{partner.minWeight} Kg</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center justify-between py-3 px-5 border-t border-slate-200/60 dark:border-darkmode-400">
-                <p className="text-lg font-bold text-primary">
-                  ₹{partner.price}
-                </p>
-
-                <div className="flex-1 flex items-center justify-end gap-2">
-                  <Button
-                    variant="secondary"
-                    onClick={() => setShowPartnerDetailsModal(true)}
-                  >
-                    <Lucide icon="Eye" className="w-5 h-5" />
-                  </Button>
-                  <Button variant="primary">
-                    <Lucide icon="Truck" className="w-5 h-5 mr-2" />
-                    Ship
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            <PartnerDetailedModal
-              open={showPartnerDetailsModal}
-              onClose={() => setShowPartnerDetailsModal(false)}
-              details={partner}
-            />
-          </div>
+          <ShippingPartnerCard key={idx} partner={partner} />
         ))}
         {/* END: Shipping partners list */}
 

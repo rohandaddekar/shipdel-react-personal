@@ -81,8 +81,9 @@ const RenderScreen = ({
 };
 
 function Main() {
-  const [currentScreen, setCurrentScreen] =
-    useState<ScreenType>("CreateNewOrder");
+  const [currentScreen, setCurrentScreen] = useState<ScreenType>(
+    "ChooseShippingPartners"
+  );
 
   return (
     <OrderProvider>
