@@ -82,7 +82,7 @@ const RenderScreen = ({
 
 function Main() {
   const [currentScreen, setCurrentScreen] = useState<ScreenType>(
-    "ChooseShippingPartners"
+    "OrderDetails"
   );
 
   return (

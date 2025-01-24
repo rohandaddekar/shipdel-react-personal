@@ -15,3 +15,22 @@ export interface OrderData {
   insurance: boolean;
   appointmentBasedDelivery: boolean;
 }
+
+export interface OrderDetails {
+  orderId: number;
+  pickupPoint: string;
+  productType: string;
+  sellerName: string;
+  sellerAddress: string;
+  sellerGstin: string;
+  productDesc: string;
+  hsnCode: number;
+  ewayBillNo: number;
+  invoiceNo: number;
+  customerName: string;
+  customerPhone: number;
+  customerEmail: string;
+  customerAddress: string;
+  customerCity: string;
+  customerState: string;
+}

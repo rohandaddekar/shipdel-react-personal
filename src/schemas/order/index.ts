@@ -56,4 +56,31 @@ const orderSchema = yup.object().shape({
     .required("Appointment-based delivery selection is required"),
 });
 
-export { dimensionSchema, orderSchema };
+const orderDetailsSchema = yup.object().shape({
+  orderId: yup
+    .number()
+    .typeError("Order ID must be a number")
+    .positive("Order ID must be positive")
+    .required("Order ID is required"),
+  pickupPoint: yup.string().required("Pickup Point is required"),
+  productType: yup.string().required("Product Type is required"),
+  sellerName: yup.string().required("Seller Name is required"),
+  sellerAddress: yup.string().required("Seller Address is required"),
+  productDesc: yup.string().required("Product Description is required"),
+  invoiceNo: yup
+    .number()
+    .typeError("Invoice Number must be a number")
+    .positive("Invoice Number must be positive")
+    .required("Invoice Number is required"),
+  customerName: yup.string().required("Customer Name is required"),
+  customerPhone: yup
+    .number()
+    .typeError("Customer Phone must be a number")
+    .positive("Customer Phone must be positive")
+    .required("Customer Phone is required"),
+  customerAddress: yup.string().required("Customer Address is required"),
+  customerCity: yup.string().required("Customer City is required"),
+  customerState: yup.string().required("Customer State is required"),
+});
+
+export { dimensionSchema, orderSchema, orderDetailsSchema };
