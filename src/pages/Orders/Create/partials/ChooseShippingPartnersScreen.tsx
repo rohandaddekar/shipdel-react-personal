@@ -14,6 +14,7 @@ interface ChooseShippingPartnersScreenProps {
 
 interface ShippingPartnerProps {
   partner: ShippingPartner;
+  setCurrentScreen: Dispatch<SetStateAction<ScreenType>>;
 }
 
 export interface ShippingPartner {
@@ -95,7 +96,10 @@ const SHIPPING_PARTNERS_LIST: ShippingPartner[] = [
   },
 ];
 
-const ShippingPartnerCard = ({ partner }: ShippingPartnerProps) => {
+const ShippingPartnerCard = ({
+  partner,
+  setCurrentScreen,
+}: ShippingPartnerProps) => {
   const [showPartnerDetailsModal, setShowPartnerDetailsModal] = useState(false);
 
   return (
@@ -140,7 +144,10 @@ const ShippingPartnerCard = ({ partner }: ShippingPartnerProps) => {
               >
                 <Lucide icon="Eye" className="w-5 h-5" />
               </Button>
-              <Button variant="primary">
+              <Button
+                variant="primary"
+                onClick={() => setCurrentScreen("OrderDetails")}
+              >
                 <Lucide icon="Truck" className="w-5 h-5 mr-2" />
                 Ship
               </Button>
@@ -224,7 +231,11 @@ const ChooseShippingPartnersScreen = ({
 
         {/* BEGIN: Shipping partners list */}
         {SHIPPING_PARTNERS_LIST.map((partner, idx) => (
-          <ShippingPartnerCard key={idx} partner={partner} />
+          <ShippingPartnerCard
+            key={idx}
+            partner={partner}
+            setCurrentScreen={setCurrentScreen}
+          />
         ))}
         {/* END: Shipping partners list */}
 
