@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../stores/store";
-import logoUrl from "../../assets/images/logo.svg";
+import logoUrl from "../../assets/images/logo.png";
 
 interface AuthLayoutProps {
   leftSection: ReactNode;
@@ -33,13 +33,12 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
         <div className="container relative z-10 sm:px-10">
           <div className="block grid-cols-2 gap-4 xl:grid">
             <div className="flex-col hidden min-h-screen xl:flex">
-              <div className="flex items-center pt-5 -intro-x">
+              <div className="flex items-center pt-5 -intro-x h-40">
                 <img
-                  alt="Midone Tailwind HTML Admin Template"
-                  className="w-6"
+                  alt="Shipdel"
                   src={logoUrl}
+                  className="h-full object-contain filter brightness-0 invert contrast-100"
                 />
-                <span className="ml-3 text-lg text-white"> Shipdel </span>
               </div>
 
               {leftSection}

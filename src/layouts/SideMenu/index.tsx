@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import TopBar from "../../components/TopBar";
 import { RootState } from "../../stores/store";
 import Lucide from "../../base-components/Lucide";
-import logoUrl from "../../assets/images/logo.svg";
+import logoUrl from "../../assets/images/logo.png";
 import { useAppSelector } from "../../stores/hooks";
 import { Transition } from "react-transition-group";
 import MobileMenu from "../../components/MobileMenu";
@@ -37,16 +37,14 @@ function Main() {
       <div className="flex mt-[4.7rem] md:mt-0">
         {/* BEGIN: Side Menu */}
         <nav className="pr-5 pb-16 overflow-x-hidden hidden md:block w-[85px] xl:w-[230px]">
-          <Link to="/" className="flex items-center pt-4 pl-5 intro-x">
+          <Link to="/" className="flex items-center pt-4 pl-5 intro-x h-32">
             <img
-              alt="Midone Tailwind HTML Admin Template"
-              className="w-6"
+              alt="Shipdel"
+              className="w-full h-full object-contain filter brightness-0 invert contrast-100"
               src={logoUrl}
             />
-            <span className="hidden ml-3 text-lg text-white xl:block">
-              Shipdel
-            </span>
           </Link>
+
           <Divider type="div" className="my-6"></Divider>
           <ul>
             {/* BEGIN: First Child */}
@@ -163,7 +161,7 @@ function Main() {
         </nav>
         {/* END: Side Menu */}
         {/* BEGIN: Content */}
-        <div className="rounded-[30px] min-w-0 min-h-screen flex-1 pb-10 bg-slate-100 dark:bg-darkmode-700 px-4 md:px-[22px] max-w-full md:max-w-auto before:content-[''] before:w-full before:h-px before:block">
+        <div className="rounded-[30px] min-w-0 min-h-screen flex-1 pb-10 bg-[#F4FAF0] dark:bg-darkmode-700 px-4 md:px-[22px] max-w-full md:max-w-auto before:content-[''] before:w-full before:h-px before:block">
           <TopBar />
           <Outlet />
         </div>
@@ -196,7 +194,7 @@ function Menu(props: {
           "dark:text-slate-300": props.menu.active && props.level != "first",
           "text-white/70 dark:text-slate-400":
             !props.menu.active && props.level != "first",
-          "z-10 bg-slate-100 dark:bg-darkmode-700":
+          "z-10 bg-[#F4FAF0] dark:bg-darkmode-700":
             props.menu.active && props.level == "first",
           "before:content-[''] before:w-[30px] before:h-[30px] before:-mt-[30px] before:rotate-90 before:scale-[1.04] before:bg-[length:100%] before:bg-menu-corner before:absolute before:top-0 before:right-0 before:-mr-5 dark:before:bg-menu-corner-dark":
             props.menu.active && props.level == "first",
@@ -220,7 +218,7 @@ function Menu(props: {
           "text-primary dark:text-slate-300":
             props.menu.active && props.level == "first",
           "dark:text-slate-400": !props.menu.active && props.level == "first",
-          "before:content-[''] before:z-[-1] before:absolute before:top-0 before:right-0 before:-mr-5 before:w-12 before:h-full before:bg-slate-100 before:dark:bg-darkmode-700":
+          "before:content-[''] before:z-[-1] before:absolute before:top-0 before:right-0 before:-mr-5 before:w-12 before:h-full before:bg-[#F4FAF0] before:dark:bg-darkmode-700":
             props.menu.active && props.level == "first",
           "before:content-[''] before:z-[-1] before:w-[230px] before:absolute before:top-0 before:left-0 before:h-full before:rounded-l-full before:transition before:ease-in before:duration-100":
             !props.menu.activeDropdown &&

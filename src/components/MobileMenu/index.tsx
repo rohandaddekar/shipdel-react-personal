@@ -6,14 +6,14 @@ import {
   Dispatch,
   SetStateAction,
 } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toRaw } from "../../utils/helper";
 import { selectSideMenu } from "../../stores/sideMenuSlice";
 import { useAppSelector } from "../../stores/hooks";
 import { FormattedMenu, nestedMenu } from "../../layouts/SideMenu/side-menu";
 import { linkTo, enter, leave } from "./mobile-menu";
 import Lucide from "../../base-components/Lucide";
-import logoUrl from "../../assets/images/logo.svg";
+import logoUrl from "../../assets/images/logo.png";
 import clsx from "clsx";
 import SimpleBar from "simplebar";
 
@@ -46,13 +46,13 @@ function Main() {
         ])}
       >
         <div className="h-[70px] px-3 sm:px-8 flex items-center">
-          <a href="" className="flex mr-auto">
+          <Link to="/" className="flex mr-auto h-16">
             <img
-              alt="Midone Tailwind HTML Admin Template"
-              className="w-6"
+              alt="Shipdel"
               src={logoUrl}
+              className="w-full h-full object-contain filter brightness-0 invert contrast-100"
             />
-          </a>
+          </Link>
           <a href="#" onClick={(e) => e.preventDefault()}>
             <Lucide
               icon="BarChart2"
