@@ -209,7 +209,7 @@ const ChooseShippingPartnersScreen = ({
             <div>
               <p className="text-xs">Dead Weight</p>
               <p className="text-lg text-primary font-bold mt-1">
-                {orderData.weight} Kg
+                {/* {orderData.weight} Kg */}0 Kg
               </p>
             </div>
           </div>
