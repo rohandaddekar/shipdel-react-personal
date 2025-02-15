@@ -14,7 +14,7 @@ import { orderSchema } from "../../schemas/order";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ScreenType } from "../../pages/Orders/Create";
 import { useOrderContext } from "../../contexts/order";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useFieldArray, useForm, useWatch } from "react-hook-form";
 
 interface OrderRatesProps {
   setCurrentScreen?: Dispatch<SetStateAction<ScreenType>>;
@@ -32,6 +32,8 @@ const OrderRates = ({
     handleSubmit,
     control,
     reset,
+    getValues,
+    trigger,
     formState: { errors },
   } = useForm<OrderData>({
     mode: "onBlur",
@@ -44,8 +46,44 @@ const OrderRates = ({
     name: "dimensions",
   });
 
-  const handleAddMore = () => {
-    append({ quantity: 0, length: 0, width: 0, height: 0 });
+  // Watch weights specifically using useWatch
+  const dimensions = useWatch({
+    control,
+    name: "dimensions",
+  });
+
+  // Calculate total weight from the watched dimensions
+  const totalWeight =
+    dimensions?.reduce(
+      (sum, dimension) => sum + (Number(dimension?.weight) || 0),
+      0
+    ) || 0;
+
+  const handleAddMore = async () => {
+    // Get the current dimensions array
+    const currentDimensions = getValues("dimensions");
+
+    // Validate only the dimensions fields
+    const isValid = await trigger("dimensions");
+
+    // Check if all fields in the last dimension object are filled
+    const lastDimension = currentDimensions[currentDimensions.length - 1];
+    const isLastDimensionFilled =
+      lastDimension &&
+      lastDimension.quantity > 0 &&
+      lastDimension.weight > 0 &&
+      lastDimension.length > 0 &&
+      lastDimension.width > 0 &&
+      lastDimension.height > 0;
+
+    if (isValid && isLastDimensionFilled) {
+      append({ quantity: 0, weight: 0, length: 0, width: 0, height: 0 });
+    } else {
+      // You can add a toast notification here to inform the user
+      alert(
+        "Please fill all the fields in the current dimension before adding more"
+      );
+    }
   };
 
   const onSubmit = (data: OrderData) => {
@@ -108,35 +146,20 @@ const OrderRates = ({
 
         {/* BEGIN: Weight & Dimensions */}
         <div className="border rounded-xl mt-5">
-          <div className="grid grid-cols-12 gap-4 gap-y-5 p-5 border-b border-dashed">
-            <div className="col-span-12 text-base font-semibold">
+          <div className="flex items-center justify-between gap-5 p-5 pb-0">
+            <div className="text-base font-semibold">
               Weight & Dimensions (in cm)
             </div>
-            <div className="col-span-12 intro-y">
-              <FormLabel htmlFor="weight">
-                Weight (in kg)
-                <span className="text-danger ml-1">*</span>
-              </FormLabel>
-              <FormInput
-                id="weight"
-                type="number"
-                placeholder="100"
-                className={twMerge([errors.weight && "border-danger"])}
-                {...register("weight")}
-              />
-              {errors.weight && (
-                <p className="text-danger text-xs mt-1">
-                  {errors.weight.message}
-                </p>
-              )}
+            <div className="text-base font-semibold">
+              Total Weight: {totalWeight.toFixed(2)} kg
             </div>
           </div>
 
           <div className="p-5">
             {fields.map((field, index) => (
               <div key={field.id} className="mb-5 bg-slate-100 p-5 rounded-lg">
-                <div className="grid grid-cols-12 gap-4 gap-y-5">
-                  <div className="col-span-12 intro-y sm:col-span-3">
+                <div className="grid grid-cols-5 gap-4 gap-y-5">
+                  <div className="intro-y">
                     <FormLabel htmlFor={`dimensions.${index}.quantity`}>
                       Quantity
                       <span className="text-danger ml-1">*</span>
@@ -155,7 +178,26 @@ const OrderRates = ({
                       </p>
                     )}
                   </div>
-                  <div className="col-span-12 intro-y sm:col-span-3">
+                  <div className="intro-y">
+                    <FormLabel htmlFor={`dimensions.${index}.weight`}>
+                      Weight
+                      <span className="text-danger ml-1">*</span>
+                    </FormLabel>
+                    <FormInput
+                      type="number"
+                      placeholder="1"
+                      className={twMerge([
+                        errors.dimensions?.[index]?.weight && "border-danger",
+                      ])}
+                      {...register(`dimensions.${index}.weight`)}
+                    />
+                    {errors.dimensions?.[index]?.weight && (
+                      <p className="text-danger text-xs mt-1">
+                        {errors.dimensions[index]?.weight?.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="intro-y">
                     <FormLabel htmlFor={`dimensions.${index}.length`}>
                       Length
                       <span className="text-danger ml-1">*</span>
@@ -174,7 +216,7 @@ const OrderRates = ({
                       </p>
                     )}
                   </div>
-                  <div className="col-span-12 intro-y sm:col-span-3">
+                  <div className="intro-y">
                     <FormLabel htmlFor={`dimensions.${index}.width`}>
                       Width
                       <span className="text-danger ml-1">*</span>
@@ -193,7 +235,7 @@ const OrderRates = ({
                       </p>
                     )}
                   </div>
-                  <div className="col-span-12 intro-y sm:col-span-3">
+                  <div className="intro-y">
                     <FormLabel htmlFor={`dimensions.${index}.height`}>
                       Height
                       <span className="text-danger ml-1">*</span>

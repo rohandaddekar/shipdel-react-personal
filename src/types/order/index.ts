@@ -1,5 +1,6 @@
 export interface Dimension {
   quantity: number;
+  weight: number;
   length: number;
   width: number;
   height: number;
@@ -8,7 +9,6 @@ export interface Dimension {
 export interface OrderData {
   pickupPincode: number;
   deliveryPincode: number;
-  weight: number;
   dimensions: Dimension[];
   paymentMode: string;
   invoiceValue: number;

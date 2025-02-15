@@ -1,11 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
 import { OrderData } from "../../types/order";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 const defaultOrderData: OrderData = {
   pickupPincode: 0,
   deliveryPincode: 0,
-  weight: 0,
-  dimensions: [{ quantity: 0, length: 0, width: 0, height: 0 }],
+  dimensions: [{ quantity: 0, weight: 0, length: 0, width: 0, height: 0 }],
   paymentMode: "Prepaid",
   invoiceValue: 0,
   insurance: false,

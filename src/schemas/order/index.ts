@@ -6,6 +6,11 @@ const dimensionSchema = yup.object().shape({
     .typeError("Quantity must be a number")
     .positive("Quantity must be a positive value")
     .required("Quantity is required"),
+  weight: yup
+    .number()
+    .typeError("Quantity must be a number")
+    .positive("Quantity must be a positive value")
+    .required("Quantity is required"),
   length: yup
     .number()
     .typeError("Length must be a number")
@@ -34,11 +39,6 @@ const orderSchema = yup.object().shape({
     .typeError("Delivery Pincode must be a number")
     .positive("Delivery Pincode must be positive")
     .required("Delivery Pincode is required"),
-  weight: yup
-    .number()
-    .typeError("Weight must be a number")
-    .positive("Weight must be a positive value")
-    .required("Weight is required"),
   dimensions: yup
     .array()
     .of(dimensionSchema)
