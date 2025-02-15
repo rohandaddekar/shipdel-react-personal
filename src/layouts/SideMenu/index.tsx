@@ -14,7 +14,9 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./side-menu";
 
 function Main() {
-  const authUser = useSelector((state: RootState) => state.authUser);
+  const authUserTokens = useSelector(
+    (state: RootState) => state.authUserTokens
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const [formattedMenu, setFormattedMenu] = useState<
@@ -24,8 +26,8 @@ function Main() {
   const sideMenu = () => nestedMenu(sideMenuStore, location);
 
   useEffect(() => {
-    if (!authUser) navigate("/sign-in");
-  }, [authUser, navigate]);
+    if (!authUserTokens) navigate("/sign-in");
+  }, [authUserTokens, navigate]);
 
   useEffect(() => {
     setFormattedMenu(sideMenu());

@@ -14,12 +14,14 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({
   leftSection,
   rightSection,
 }) => {
-  const authUser = useSelector((state: RootState) => state.authUser);
+  const authUserTokens = useSelector(
+    (state: RootState) => state.authUserTokens
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authUser) navigate("/");
-  }, [authUser, navigate]);
+    if (authUserTokens) navigate("/");
+  }, [authUserTokens, navigate]);
 
   return (
     <>

@@ -6,6 +6,7 @@ import useSignIn from "../../../../apis/auth/signIn";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "../../../../base-components/Button";
 import { FormInput } from "../../../../base-components/Form";
+import { Loader2 } from "lucide-react";
 
 interface SignInFormData {
   email: string;
@@ -19,7 +20,7 @@ const signInSchema = yup.object({
 
 const RightSection = () => {
   const navigate = useNavigate();
-  const signInMutation = useSignIn();
+  const { mutate: signInMutation, isPending: isSigningIn } = useSignIn();
 
   const {
     register,
@@ -31,7 +32,7 @@ const RightSection = () => {
   });
 
   const signInHandler = async (data: SignInFormData) => {
-    signInMutation.mutate(data);
+    signInMutation(data);
   };
 
   return (
@@ -93,8 +94,10 @@ const RightSection = () => {
               type="submit"
               variant="primary"
               className="w-full px-4 py-3 align-top"
+              disabled={isSigningIn}
             >
               Sign In
+              {isSigningIn && <Loader2 className="ml-2 w-4 h-4 animate-spin" />}
             </Button>
             <Button
               type="button"

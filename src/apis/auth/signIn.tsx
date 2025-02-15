@@ -1,7 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
 import useAxios from "..";
 import { useDispatch } from "react-redux";
-import { signIn } from "../../stores/authUserSlice";
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from "../../stores/authUserTokensSlice";
 
 interface SignInFormData {
   email: string;
@@ -13,23 +13,20 @@ const useSignIn = () => {
   const dispatch = useDispatch();
 
   const signInFn = async (payload: SignInFormData) => {
-    // const res = axios.post("/auth/sign-in", payload);
-    // return res;
-
-    console.log("payload: ", payload);
-
-    return {
-      id: 1,
-      name: "John Doe",
-      email: "john@example.com",
-    };
+    const res = axios.post("/api/users/login/", payload);
+    return res;
   };
 
   return useMutation({
     mutationFn: (payload: SignInFormData) => signInFn(payload),
     onSuccess: (data) => {
-      console.log("Sign in success: ", data);
-      dispatch(signIn(data));
+      // console.log("Sign in success: ", data);
+      dispatch(
+        signIn({
+          refresh: data?.data?.refresh,
+          access: data?.data?.access,
+        })
+      );
     },
     onError: (error) => {
       console.log("Sign in error: ", error);

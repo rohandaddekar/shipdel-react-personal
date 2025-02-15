@@ -1,7 +1,7 @@
 import topMenuReducer from "./topMenuSlice";
 import darkModeReducer from "./darkModeSlice";
 import sideMenuReducer from "./sideMenuSlice";
-import authUserReducer from "./authUserSlice";
+import authUserTokensReducer from "./authUserTokensSlice";
 import simpleMenuReducer from "./simpleMenuSlice";
 import colorSchemeReducer from "./colorSchemeSlice";
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
@@ -13,7 +13,7 @@ export const store = configureStore({
     sideMenu: sideMenuReducer,
     simpleMenu: simpleMenuReducer,
     topMenu: topMenuReducer,
-    authUser: authUserReducer,
+    authUserTokens: authUserTokensReducer,
   },
 });
 

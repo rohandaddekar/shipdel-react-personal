@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { useState, Fragment } from "react";
 import { Transition } from "@headlessui/react";
 import Lucide from "../../base-components/Lucide";
-import { signOut } from "../../stores/authUserSlice";
+import { signOut } from "../../stores/authUserTokensSlice";
 import { FormInput } from "../../base-components/Form";
 import Breadcrumb from "../../base-components/Breadcrumb";
 import { Menu, Popover } from "../../base-components/Headless";
